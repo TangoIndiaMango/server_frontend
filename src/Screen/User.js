@@ -148,32 +148,27 @@ const User = () => {
                 console.log(err)
             })
     }
-    //sending checked items
+    //sending checked items to email
 
-    const handleSendData = () => {
+    const handleSendData = (e) => {
         
-        const url = `https://full-app-todo.herokuapp.com/user/${id}`;
-        const Info = { name, email, number, hobbies }
-        axios.get(url, Info)
-            .then(response => {
-                const result = response.data;
-                const { status, message, } = result;
-                if (status !== 'success') {
-                    alert(message, status)
-                }
-                else {
-                    alert("User info sent to email")
-                    window.location.reload();
-                }
-            }).catch(err => {
-                console.log(err)
-        })
+        var templateParams = { name:RowData.name, email:RowData.email, number:RowData.number, hobbies:RowData.hobbies };
+        
+
+        emailjs.send('service_4uyavoq', 'fulsatck_template', templateParams,  'ELepgvZVw53qBXqXU')
+        .then(function(response) {
+
+            console.log('SUCCESS!', response.status, response.text);
+            alert("Email Sent Succesfully......", response.status, response.text)
+            window.location.reload()
+
+        }, function(error) {
+            console.log('FAILED...', error);
+
+        });
     }
 
-    function sendEmail(e) {
-        e.preventDefault();
-        emailjs.sendEmail('gmail', 'fulsatck_template', e.Info, 'ELepgvZVw53qBXqXU')
-    }
+
     useEffect(() => {
         GetUserData();
                
@@ -348,7 +343,7 @@ const User = () => {
                     onHide={handleSendClose}
                     backdrop="static"
                     keyboard={false}
-                    onSubmit ={sendEmail}>
+                    onSubmit ={handleSendData}>
 
                         <Modal.Header closeButton>
                             <Modal.Title>Send User Data</Modal.Title>
@@ -363,7 +358,7 @@ const User = () => {
                                 <div className='form-group'><input type="text" className='form-control' value={RowData.number} readOnly /> </div>
                                 <div className='form-group'><input type="text" className='form-control' value={RowData.hobbies} readOnly /> </div>
 
-                                <Button type='submit' className='btn btn-success mt-4' onClick={handleSendData}>Send User</Button>
+                                <Button type='submit' className='btn btn-success mt-4' onClick={(e)=>handleSendData(e)}>Send User</Button>
                         </div>
                                 
                     </Modal.Body>
