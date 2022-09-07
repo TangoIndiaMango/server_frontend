@@ -1,4 +1,5 @@
 
+import './App.css';
 import User from './Screen/User';
 function App() {
   return (
