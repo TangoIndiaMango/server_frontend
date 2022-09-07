@@ -153,7 +153,7 @@ const User = () => {
     const handleSendData = (e) => {
         
         var templateParams = { name:RowData.name, email:RowData.email, number:RowData.number, hobbies:RowData.hobbies };
-        
+        console.log(templateParams)
 
         emailjs.send('service_e5socu7', 'fulsatck_template', templateParams,  'ELepgvZVw53qBXqXU')
         .then(function(response) {
